@@ -1,6 +1,6 @@
 # Wx_Ai_bot
-基于linux wechat的即时ai信息处理脚本
-# 基于[Linux-Wechat🚀](http://https://github.com/danni-cool/wechatbot-webhook)制作的Wechat-bot👨‍🎓
+linux wechat的即时ai信息处理脚本
+# 基于[Linux-Wechat🚀](https://github.com/danni-cool/wechatbot-webhook)制作的Wechat-bot👨‍🎓
 ---
 ## 首先 感谢[原作者](https://github.com/danni-cool)对【Wechat for linux】的二次封装和docker支持的，才有的本项目的诞生！
 ---
