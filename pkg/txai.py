@@ -1,17 +1,11 @@
 from rev_HunYuan import *
 
-try:
-    from pkg._wx_msg_all import *
-except ImportError:
-    from _wx_msg_all import *
+from pkg.wx_msg_all import *
+# 全局变量
+from pkg import glb_data
 
 # .replace(old_str, new_str)
-
-
-bot = HunYuan(
-    # todo: 参照教程，获取cookie
-    cookie="b-user-id="
-)
+bot = HunYuan(cookie=glb_data.tx_cookie)
 
 
 def tx_msg(t_name, tx_word):
@@ -34,7 +28,3 @@ def tx_pic(t_name, tx_pic_):
     # print(tx_pic_req)
     wx_send_file(send_=t_name, file_path=tx_pic_req)
 
-
-# tx_pic(tx_pic_="帮我画一幅山水画")
-# {"text": "你好，有什么我可以帮助你的吗？", "images": []}
-# {"text": "这是一条图片信息", "images": [{"highImgUrl": imgUrlHigh, "lowImgUrl": imgUrlLow}, {"highImgUrl": imgUrlHigh, "lowImgUrl": imgUrlLow}, {"highImgUrl": imgUrlHigh, "lowImgUrl": imgUrlLow}]}

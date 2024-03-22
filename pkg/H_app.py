@@ -1,15 +1,8 @@
 import json
-import requests
 
-try:
-    from pkg._wx_msg_all import *
-except ImportError:
-    from _wx_msg_all import *
-
-headers = {
-    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
-                  "Chrome/79.0.3945.29 Safari/537.36 Edg/79.0.309.18 "
-}
+from pkg.wx_msg_all import *
+# 全局变量
+from pkg import glb_data
 
 
 def one(t_name):
@@ -23,14 +16,9 @@ def one(t_name):
     wx_send_msg(send_=t_name, msg_=text_res)
 
 
-# wx的文件发送测试
-def wx_plus():
-    pass
-
-
 # 思知机器人 智障
 def sizhi(t_name, sizi_word: str):
-    sess = requests.get(f'https://api.ownthink.com/bot?spoken={sizi_word}', headers=headers)
+    sess = requests.get(f'https://api.ownthink.com/bot?spoken={sizi_word}', headers=glb_data.headers)
     answer = sess.text
     answer = json.loads(answer)["data"]["info"]["text"]
     wx_send_msg(send_=t_name, msg_=answer)
@@ -40,7 +28,7 @@ def sizhi(t_name, sizi_word: str):
 # 青云机器人 简单对话
 def qingyunke(t_name, qy_word: str):
     qy_url = f"http://api.qingyunke.com/api.php?key=free&appid=0&msg={qy_word}"
-    qy_req = requests.get(qy_url, headers=headers)
+    qy_req = requests.get(qy_url, headers=glb_data.headers)
     qy_text = json.loads(qy_req.text)["content"]
 
     wx_send_msg(send_=t_name, msg_=qy_text)
@@ -50,8 +38,7 @@ def qingyunke(t_name, qy_word: str):
 # 天聚 部分Api
 class TianJu:
     def __init__(self, t_name):
-        # todo: 配置天聚参数：key 和 订阅相关的接口
-        self.key = "6aad1be68"
+        self.key = glb_data.tianju_key
         self.t_name = t_name
 
     def caidan_moudl(self, cp_name, zuofa, texing, tishi, tiaoliao, yuanliao):
@@ -100,7 +87,7 @@ class TianJu:
     # 英汉名言
     def yinhanmingyan(self):
         yh = f"https://apis.tianapi.com/enmaxim/index?key={self.key}"
-        yh_req = requests.get(yh, headers=headers).json()
+        yh_req = requests.get(yh, headers=glb_data.headers).json()
         print(yh_req)
         if yh_req["code"] == 200:
             en = yh_req["result"]["en"]
@@ -115,7 +102,7 @@ class TianJu:
     # 添狗日记
     def tiangou(self):
         tiangou_url = f"https://apis.tianapi.com/tiangou/index?key={self.key}"
-        tg_req = requests.get(tiangou_url, headers=headers).json()
+        tg_req = requests.get(tiangou_url, headers=glb_data.headers).json()
         print(tg_req)
         if tg_req["code"] == 200:
             tg_text = tg_req["result"]["content"]
@@ -128,7 +115,7 @@ class TianJu:
     # 健康妙招
     def jiankang(self, jk_word):
         jk_url = f"https://apis.tianapi.com/healthskill/index?key={self.key}&word={jk_word}"
-        jk_req = requests.get(jk_url, headers=headers).json()
+        jk_req = requests.get(jk_url, headers=glb_data.headers).json()
         print(jk_req)
 
         if jk_req["code"] == 200:
@@ -158,3 +145,4 @@ class TianJu:
 
         wx_send_msg(send_=self.t_name, msg_=push_text)
         print(push_text)
+

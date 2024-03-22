@@ -6,42 +6,29 @@
 import json
 from lxml import etree
 
-import requests
-from time import sleep
+from pkg.wx_msg_all import *
+# 全局变量
+from pkg import glb_data
 
-try:
-    from pkg._wx_msg_all import *
-except ImportError:
-    from _wx_msg_all import *
-
-
-headers = {
-    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
-                  "Chrome/79.0.3945.29 Safari/537.36 Edg/79.0.309.18 "
-}
+text_ = []
 
 
 def start():
-    with open('./today.txt', "r", encoding='utf-8') as f:  # 设置文件对象
-        text_all = f.read()  # 可以是随便对文件的操作
-    # print(text_all)
-    return text_all
+    alltext = "".join(text_)
+    print(alltext)
+    return alltext
 
 
 def download(txt):
-    with open('./today.txt', 'a', encoding='utf-8') as f:
-        f.write(str(txt))
+    text_.append(txt)
 
 
 def weather(cityid_):
     city_idurl = f"https://tianqi.moji.com/api/redirect/{cityid_}"
 
-    weather_city = requests.get(city_idurl, headers=headers)
+    weather_city = requests.get(city_idurl, headers=glb_data.headers)
     weather_city.encoding = weather_city.apparent_encoding
     html = etree.HTML(weather_city.text)
-
-    with open('./today.txt', 'w', encoding='utf-8') as f:
-        f.write('')
 
     adder = html.xpath('//*[@id="search"]/div[1]/div[1]/em//text()')
     for y in adder:
@@ -102,19 +89,14 @@ def main_city_id(name_, city_):
     # city_ = input("City:—>")
     try:
         search_url = f"https://tianqi.moji.com/api/citysearch/{city_}"
-        r = requests.get(search_url, headers=headers)
+        r = requests.get(search_url, headers=glb_data.headers)
 
         r.encoding = r.apparent_encoding
-        # print(type(r))
-        # print(r.text)
-        # print()
         dict_ = json.loads(r.text)
-        # print(type(dict_))
-        # print(dict_)
-        # print(dict_["city_list"][0]["cityId"])
         send_id = dict_["city_list"][0]["cityId"]
         return send_id
-    except:
+    except Exception as e:
+        print(e)
         wx_send_msg(send_=name_, msg_="错误！核实是否为县市区")
 
 
@@ -122,20 +104,4 @@ def moji_weather(name_t, city_):
     cityid = main_city_id(name_=name_t, city_=city_)
     weather(cityid_=cityid)
     wx_send_msg(send_=name_t, msg_=start())
-    # print(start())
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

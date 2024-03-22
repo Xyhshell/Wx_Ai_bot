@@ -1,17 +1,15 @@
 import re
-
 from sparkdesk_web.core import SparkWeb
 
-try:
-    from pkg._wx_msg_all import *
-except ImportError:
-    from _wx_msg_all import *
+from pkg.wx_msg_all import *
+# 全局变量
+from pkg import glb_data
 
-# 请根据自己配置三个参数 todo: 参照教程，配置三个参数
+# 请根据自己配置三个参数
 sparkWeb = SparkWeb(
-    cookie="di_c_mti=be-36MIwA==",
-    fd="2184",
-    GtToken="RzAwA="
+    cookie=glb_data.sf_cookie,
+    fd=glb_data.sf_fd,
+    GtToken=glb_data.sf_GtToken
 )
 
 chat = sparkWeb.create_continuous_chat()
@@ -21,6 +19,7 @@ chat = sparkWeb.create_continuous_chat()
 def sf_word(s_name, ides_):
     """
     主要进行文本处理
+    :param s_name:
     :param ides_:
     :return:
     """
@@ -32,6 +31,7 @@ def sf_word(s_name, ides_):
 def sf_pic(s_name, ides_):
     """
     绘画处理
+    :param s_name:
     :param ides_:
     :return:
     """
@@ -40,7 +40,3 @@ def sf_pic(s_name, ides_):
     sf_pic_url = re.findall(':"(.*?)"}', sf_req_pic, flags=re.DOTALL)[0]
     sleep(0.1)
     wx_send_file(send_=s_name, file_path=sf_pic_url)
-
-# sf_pic(ides_="画一幅草原画")
-# sf_pic(ides_="画一幅草原画")
-
