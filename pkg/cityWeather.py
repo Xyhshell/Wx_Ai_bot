@@ -14,8 +14,11 @@ text_ = []
 
 
 def start():
+    global text_
     alltext = "".join(text_)
     print(alltext)
+    # 用于清除缓存
+    text_ = []
     return alltext
 
 
