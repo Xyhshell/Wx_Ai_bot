@@ -35,7 +35,7 @@
 9. ✅优化部分指令模式
 
 ### 注意
-1. 🔴全新的全局变量，在所有文件的外部配置脚本需要的id,key,cookie等参数
+1. 🔴全新的全局变量，在所有文件的 [ 配置脚本 ](https://github.com/Xyhshell/Wx_Ai_bot/blob/Wx_Ai_bot_open_user/pkg/glb_data.py) 需要的id,key,cookie等参数
 2. 🔴由于最新版的通信接口变化，需要注意在推送api处配置自己的tokon
 ---
 
